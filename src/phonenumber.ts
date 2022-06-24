@@ -1,9 +1,13 @@
 import { product } from './supports/array'
+
+// fixing suffix when missing 62
 export const fixSuffix = (phonenumber: string) => {
   if (!(phonenumber.startsWith('62') || phonenumber.startsWith('0')))
     return '62' + phonenumber
   else return phonenumber.replace(/^0/, '62')
 }
+
+// remove when suffix is 0 or 62
 export const cleanNumber = (phoneNumber: string) =>
   phoneNumber.replace(/^(0|62)/, '')
 
@@ -12,6 +16,12 @@ export interface CreateOptions {
   totalTarget: number
 }
 export class PhoneNumber {
+  /**
+   * Generator phone number with format. Example
+   * 628129999xxx
+   * 628129999x[02]x
+   * 6281299x9x239
+   */
   private *generator(phoneNumber: string) {
     const validateBracket =
       (phoneNumber.match(/\[/g) || []).length !==
@@ -23,10 +33,12 @@ export class PhoneNumber {
 
     let prog = new RegExp('(x|\\[\\d+?\\])', 'g')
     let template = phoneNumber.replace(prog, '{}')
+    // possible to fill phone number
     let possible_fills: string[][] = []
 
     ;(phoneNumber.match(prog) || []).map((unknown) => {
       if (unknown == 'x') {
+        // when word is 'x' it must be one of number from 0 to 9
         possible_fills.push('0123456789'.split(''))
       } else {
         possible_fills.push(unknown.replace(/(^\[|\]$)/g, '').split(''))
@@ -40,6 +52,11 @@ export class PhoneNumber {
       yield [possible, i++]
     }
   }
+
+  /**
+   * Create phone number with some options like length of the phoneNumber
+   * and total target what you want
+   */
   *create(phoneNumber: string, options: Partial<CreateOptions>) {
     options.length ||= 12
     options.totalTarget ||= 1000
