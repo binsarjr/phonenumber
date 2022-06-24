@@ -1,4 +1,4 @@
-import { product } from './array'
+import { product } from './supports/array'
 export const fixSuffix = (phonenumber: string) => {
   if (!(phonenumber.startsWith('62') || phonenumber.startsWith('0')))
     return '62' + phonenumber
@@ -58,7 +58,7 @@ export class PhoneNumber {
     phoneNumber = fixSuffix(phoneNumber)
 
     for (const [ph, i] of this.generator(phoneNumber)) {
-      yield ph
+      yield [ph, i]
       if (totalTarget != Infinity && totalTarget == i) break
     }
   }
