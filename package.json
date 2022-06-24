@@ -1,0 +1,14 @@
+{
+  "name": "phonenumber-id",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "author": "Binsar Dwi Jasuma <binsarjr121@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/cheerio": "^0.22.31",
+    "@types/node": "^18.0.0",
+    "typescript": "^4.7.4",
+    "cheerio": "^1.0.0-rc.11",
+    "got": "11"
+  }
+}
